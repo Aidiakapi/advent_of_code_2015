@@ -11,6 +11,7 @@ extern crate itertools;
 mod framework;
 mod day01;
 mod day02;
+mod day03;
 
 fn main() {
     let mut fw = framework::Framework::new();
@@ -23,7 +24,7 @@ fn main() {
         };
     }
 
-    load_days!(day01, day02);
+    load_days!(day01, day02, day03);
 
     match fw.execute() {
         Ok(()) => println!("All OK"),
