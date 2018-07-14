@@ -5,6 +5,7 @@ extern crate serde;
 extern crate serde_derive;
 extern crate ron;
 extern crate reqwest;
+extern crate itertools;
 
 mod framework;
 mod day01;
