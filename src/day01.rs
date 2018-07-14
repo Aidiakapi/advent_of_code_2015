@@ -1,8 +1,23 @@
 use framework::*;
 
 pub fn load(fw: &mut Framework) {
-    fw.register("https://adventofcode.com/2015/day/1/input", &part1);
-    fw.register("https://adventofcode.com/2015/day/1/input", &part2);
+    register!(fw, "https://adventofcode.com/2015/day/1/input", part1,
+    [
+        "(())"    => "0"
+        "()()"    => "0"
+        "((("     => "3"
+        "(()(()(" => "3"
+        "))(((((" => "3"
+        "())"     => "-1"
+        "))("     => "-1"
+        ")))"     => "-3"
+        ")())())" => "-3"
+    ]);
+    register!(fw, "https://adventofcode.com/2015/day/1/input", part2,
+    [
+        ")"     => "1"
+        "()())" => "5"
+    ]);
 }
 
 fn part1(input: String) -> Result<isize> {
