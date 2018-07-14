@@ -8,7 +8,7 @@ fn id<T>(x: T) -> T {
 }
 
 macro_rules! register {
-    ($fw:ident, $url:expr, $transform:ident, $execute:ident, [$($input:expr => $output:expr);+]) => {
+    ($fw:ident, $url:expr, $transform:ident, $execute:ident, [$($input:expr => $output:expr)+]) => {
         $fw.register($url, &$transform, &$execute, vec![$(($input, $output),)*])
     };
     ($fw:ident, $url:expr, $execute:ident, [$($input:expr => $output:expr)+]) => {
