@@ -5,6 +5,7 @@ authors = ["Aidiakapi"]
 
 [dependencies]
 reqwest = "0.8.6"
+rust-crypto = "0.2.36"
 serde = "1.0.70"
 serde_derive = "1.0.70"
 ron = "0.3.0"

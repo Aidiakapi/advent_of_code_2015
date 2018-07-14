@@ -174,9 +174,13 @@ impl Framework {
                 use reqwest::StatusCode;
                 match response.status() {
                     StatusCode::Ok => {
+                        let mut response_text = response.text()?;
+                        if response_text.ends_with('\n') {
+                            response_text.pop();
+                        }
                         cache
                             .input_cache
-                            .insert(entry.url.to_string(), response.text()?);
+                            .insert(entry.url.to_string(), response_text);
                     },
                     StatusCode::BadRequest => {
                         println!("Bad request, session key probably expired");
@@ -207,7 +211,7 @@ impl Framework {
 
             println!("Running puzzle {} - {}", entry.module, index + 1);
 
-            if entry.examples.len() == 0 {
+            if entry.examples.len() != 0 {
                 println!("Testing {} examples", entry.examples.len());
             }
             let mut any_incorrect = false;

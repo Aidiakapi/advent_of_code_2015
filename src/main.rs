@@ -6,12 +6,14 @@ extern crate serde_derive;
 extern crate ron;
 extern crate reqwest;
 extern crate itertools;
+extern crate crypto;
 
 #[macro_use]
 mod framework;
 mod day01;
 mod day02;
 mod day03;
+mod day04;
 
 fn main() {
     let mut fw = framework::Framework::new();
@@ -24,7 +26,12 @@ fn main() {
         };
     }
 
-    load_days!(day01, day02, day03);
+    load_days!(
+        day01,
+        day02,
+        day03,
+        day04
+    );
 
     match fw.execute() {
         Ok(()) => println!("All OK"),
