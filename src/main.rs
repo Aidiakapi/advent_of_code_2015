@@ -16,6 +16,7 @@ mod day03;
 mod day04;
 mod day05;
 mod day06;
+mod day07;
 
 fn main() {
     let mut fw = framework::Framework::new();
@@ -34,7 +35,8 @@ fn main() {
         day03,
         day04,
         day05,
-        day06
+        day06,
+        day07
     );
 
     match fw.execute() {

@@ -70,10 +70,9 @@ struct Cache {
 
 impl Cache {
     fn load<P: AsRef<Path>>(path: P) -> Cache {
-        use ron::de;
         fs::read(path)
             .ok()
-            .and_then(|x| de::from_bytes(&x).ok())
+            .and_then(|x| ron::de::from_bytes(&x).ok())
             .unwrap_or_default()
     }
 
@@ -155,8 +154,8 @@ impl Framework {
         use std::thread::sleep;
         use std::time::Duration;
 
-        let mut client: Option<Client> = None;
         'reset_session: loop {
+            let mut client: Option<Client> = None;
             for entry in &self.entries {
                 if cache.input_cache.contains_key(entry.url) {
                     continue;
@@ -226,6 +225,10 @@ impl Framework {
                 }
             }
             if any_incorrect { continue; }
+
+            if entry.examples.len() != 0 {
+                println!("Testing successful, running on puzzle input\n");
+            }
 
             let input = cache.input_cache.get(entry.url).unwrap();
             let output = (entry.execute)(input.clone())?;
