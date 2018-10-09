@@ -7,6 +7,7 @@ extern crate ron;
 extern crate reqwest;
 extern crate itertools;
 extern crate crypto;
+extern crate permutohedron;
 
 #[macro_use]
 mod framework;
@@ -18,6 +19,7 @@ mod day05;
 mod day06;
 mod day07;
 mod day08;
+mod day09;
 
 fn main() {
     let mut fw = framework::Framework::new();
@@ -38,7 +40,8 @@ fn main() {
         day05,
         day06,
         day07,
-        day08
+        day08,
+        day09
     );
 
     match fw.execute() {
