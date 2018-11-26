@@ -1,13 +1,9 @@
-use framework::*;
-
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/4/input", part1, 
-    [
-        "abcdef"  => "609043"
-        "pqrstuv" => "1048970"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/4/input", part2);
-}
+day!(
+    day04,
+    "https://adventofcode.com/2015/day/4/input",
+    part1,
+    part2
+);
 
 fn part1(prefix: String) -> Result<usize> {
     use crypto::{digest::Digest, md5::Md5};
@@ -40,4 +36,12 @@ fn part2(prefix: String) -> Result<usize> {
     }
 
     unreachable!();
+}
+
+#[test]
+fn day04_test() {
+    assert_results!(part1,
+        "abcdef"  => 609043,
+        "pqrstuv" => 1048970,
+    );
 }

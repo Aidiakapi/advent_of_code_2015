@@ -1,51 +1,79 @@
-#![feature(associated_type_defaults, box_syntax)]
+#![allow(unused_imports)]
 
+#[macro_use]
+extern crate lazy_static;
+extern crate regex;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate ron;
+extern crate bincode;
 extern crate reqwest;
-extern crate itertools;
 extern crate crypto;
-extern crate permutohedron;
 
+mod error;
 #[macro_use]
 mod framework;
-mod day01;
-mod day02;
-mod day03;
-mod day04;
-mod day05;
-mod day06;
-mod day07;
-mod day08;
-mod day09;
 
-fn main() {
-    let mut fw = framework::Framework::new();
-    macro_rules! load_days {
-        ($($e: ident),+) => {
+use std::env;
+use reqwest::Client;
+use crate::framework::Framework;
+
+pub(crate) use crate::error::Error;
+pub(crate) use crate::error::Result;
+
+macro_rules! main {
+    ($($days:ident),+$(,)*) => {
+        $(
+            mod $days;
+        )+
+        fn main() {
+            let mut fw = Framework::new();
+
             $(
-                fw.set_active_module(stringify!($e));
-                $e::load(&mut fw);
-            )*
-        };
-    }
+                {
+                    crate::$days::register_day(&mut fw);
+                }
+            )+;
 
-    load_days!(
-        day01,
-        day02,
-        day03,
-        day04,
-        day05,
-        day06,
-        day07,
-        day08,
-        day09
-    );
+            let client = Client::new();
 
-    match fw.execute() {
-        Ok(()) => println!("All OK"),
-        Err(x) => eprintln!("IO error:\n{:?}", x),
-    }
+            let args: Vec<String> = env::args().collect();
+            match args.len() {
+                1 => {
+                    // execute all
+                    $(
+                        {
+                            if let Err(e) = fw.execute(&client, stringify!($days)) {
+                                eprintln!("{}", e);
+                                std::process::exit(-2);
+                            }
+                        }
+                    )+;
+                },
+                2 => {
+                    // execute specific day
+                    if let Err(e) = fw.execute(&client, args[1].as_str()) {
+                        eprintln!("{}", e);
+                        std::process::exit(-2);
+                    }
+                },
+                _ => {
+                    eprintln!("too many arguments");
+                    std::process::exit(-1);
+                }
+            }
+        }
+    };
 }
+
+main!(
+    day01,
+    day02,
+    day03,
+    day04,
+    day05,
+    day06,
+    day07,
+    day08,
+    day09,
+);

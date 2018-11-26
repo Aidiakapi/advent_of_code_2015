@@ -1,23 +1,11 @@
-use framework::{self as fw, Framework};
+day!(
+    day08,
+    "https://adventofcode.com/2015/day/8/input",
+    part1,
+    part2
+);
 
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/8/input", part1,
-    [
-"\"\"
-\"abc\"
-\"aaa\\\"aaa\"
-\"\\x27\"" => "12"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/8/input", part2,
-    [
-"\"\"
-\"abc\"
-\"aaa\\\"aaa\"
-\"\\x27\"" => "19"
-    ]);
-}
-
-fn part1(input: String) -> fw::Result<usize> {
+fn part1(input: String) -> Result<usize> {
     Ok(input
         .split('\n')
         .filter(|line| line.len() >= 2)
@@ -82,7 +70,7 @@ fn part1(input: String) -> fw::Result<usize> {
         .sum())
 }
 
-fn part2(input: String) -> fw::Result<usize> {
+fn part2(input: String) -> Result<usize> {
     Ok(input
         .split('\n')
         .filter(|line| line.len() >= 2)
@@ -91,4 +79,20 @@ fn part2(input: String) -> fw::Result<usize> {
             count + 2
         })
         .sum())
+}
+
+#[test]
+fn day08_test() {
+    assert_results!(part1,
+"\"\"
+\"abc\"
+\"aaa\\\"aaa\"
+\"\\x27\"" => 12
+    );
+    assert_results!(part2,
+"\"\"
+\"abc\"
+\"aaa\\\"aaa\"
+\"\\x27\"" => 19
+    );
 }

@@ -1,17 +1,9 @@
-use framework::*;
-
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/2/input", transform, part1, 
-    [
-        "2x3x4"  => "58"
-        "1x1x10" => "43"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/2/input", transform, part2, 
-    [
-        "2x3x4"  => "34"
-        "1x1x10" => "14"
-    ]);
-}
+day!(
+    day02,
+    "https://adventofcode.com/2015/day/2/input",
+    part1,
+    part2
+);
 
 #[derive(Debug)]
 struct Dimension(usize, usize, usize);
@@ -20,7 +12,7 @@ fn transform(input: String) -> Vec<Dimension> {
     input
         .split("\n")
         .filter_map(|part| {
-            let mut iter = part.split("x");
+            let mut iter = part.split('x');
             let l = iter.next()?.parse().ok()?;
             let w = iter.next()?.parse().ok()?;
             let h = iter.next()?.parse().ok()?;
@@ -29,8 +21,8 @@ fn transform(input: String) -> Vec<Dimension> {
         .collect()
 }
 
-fn part1(input: Vec<Dimension>) -> Result<usize> {
-    println!("{:?}", input);
+fn part1(input: String) -> Result<usize> {
+    let input = transform(input);
     Ok(input
         .iter()
         .map(|Dimension(l, w, h)| {
@@ -43,7 +35,8 @@ fn part1(input: Vec<Dimension>) -> Result<usize> {
         .sum())
 }
 
-fn part2(input: Vec<Dimension>) -> Result<usize> {
+fn part2(input: String) -> Result<usize> {
+    let input = transform(input);
     Ok(input
         .iter()
         .map(|Dimension(l, w, h)| {
@@ -54,4 +47,17 @@ fn part2(input: Vec<Dimension>) -> Result<usize> {
             2 * min + l * w * h
         })
         .sum())
+}
+
+#[test]
+fn day02_test() {
+    assert_results!(part1,
+        "2x3x4"  => 58,
+        "1x1x10" => 43,
+    );
+    
+    assert_results!(part2,
+        "2x3x4"  => 34,
+        "1x1x10" => 14,
+    );
 }

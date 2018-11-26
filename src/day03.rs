@@ -1,20 +1,11 @@
-use framework::*;
-use std::collections::HashSet;
+day!(
+    day03,
+    "https://adventofcode.com/2015/day/3/input",
+    part1,
+    part2
+);
 
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/3/input", transform, part1, 
-    [
-        ">"          => "2"
-        "^>v<"       => "4"
-        "^v^v^v^v^v" => "2"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/3/input", transform, part2, 
-    [
-        "^v"         => "3"
-        "^>v<"       => "3"
-        "^v^v^v^v^v" => "11"
-    ]);
-}
+use std::collections::HashSet;
 
 #[derive(Debug)]
 enum Direction {
@@ -56,7 +47,8 @@ fn transform(input: String) -> Vec<Direction> {
         .collect()
 }
 
-fn part1(input: Vec<Direction>) -> Result<usize> {
+fn part1(input: String) -> Result<usize> {
+    let input = transform(input);
     let mut pos = (0, 0);
     let mut visited = HashSet::new();
     visited.insert(pos);
@@ -67,7 +59,8 @@ fn part1(input: Vec<Direction>) -> Result<usize> {
     Ok(visited.len())
 }
 
-fn part2(input: Vec<Direction>) -> Result<usize> {
+fn part2(input: String) -> Result<usize> {
+    let input = transform(input);
     let (mut posa, mut posb) = ((0, 0), (0, 0));
     let mut visited = HashSet::new();
     visited.insert(posa);
@@ -77,4 +70,18 @@ fn part2(input: Vec<Direction>) -> Result<usize> {
         ::std::mem::swap(&mut posa, &mut posb);
     }
     Ok(visited.len())
+}
+
+#[test]
+fn day03_test() {
+    assert_results!(part1,
+        ">"          => 2,
+        "^>v<"       => 4,
+        "^v^v^v^v^v" => 2,
+    );
+    assert_results!(part2,
+        "^v"         => 3,
+        "^>v<"       => 3,
+        "^v^v^v^v^v" => 11,
+    );
 }

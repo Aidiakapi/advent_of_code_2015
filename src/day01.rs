@@ -1,24 +1,9 @@
-use framework::*;
-
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/1/input", part1,
-    [
-        "(())"    =>  "0"
-        "()()"    =>  "0"
-        "((("     =>  "3"
-        "(()(()(" =>  "3"
-        "))(((((" =>  "3"
-        "())"     => "-1"
-        "))("     => "-1"
-        ")))"     => "-3"
-        ")())())" => "-3"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/1/input", part2,
-    [
-        ")"     => "1"
-        "()())" => "5"
-    ]);
-}
+day!(
+    day01,
+    "https://adventofcode.com/2015/day/1/input",
+    part1,
+    part2
+);
 
 fn part1(input: String) -> Result<isize> {
     Ok(input.chars().fold(0, |a, c| match c {
@@ -38,5 +23,25 @@ fn part2(input: String) -> Result<usize> {
             _ => (),
         }
     }
-    Err("Basement level not reached".into())
+    Err(Error::Puzzle("basement level not reached"))
+}
+
+#[test]
+fn day01_test() {
+    assert_results!(part1,
+        "(())"    =>  0,
+        "()()"    =>  0,
+        "((("     =>  3,
+        "(()(()(" =>  3,
+        "))(((((" =>  3,
+        "())"     => -1,
+        "))("     => -1,
+        ")))"     => -3,
+        ")())())" => -3,
+    );
+
+    assert_results!(part2,
+        ")"     => 1,
+        "()())" => 5,
+    );
 }

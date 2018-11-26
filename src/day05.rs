@@ -1,22 +1,9 @@
-use framework::*;
-
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/5/input", part1,
-    [
-        "ugknbfddgicrmopn" => "1"
-        "aaa"              => "1"
-        "jchzalrnumimnmhp" => "0"
-        "haegwjzuvuyypxyu" => "0"
-        "dvszwmarrgswjxmb" => "0"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/5/input", part2,
-    [
-        "qjhvhtzxzqqjkmpb" => "1"
-        "xxyxx"            => "1"
-        "uurcxstgmygtbstg" => "0"
-        "ieodomkazucvgmuy" => "0"
-    ]);
-}
+day!(
+    day05,
+    "https://adventofcode.com/2015/day/5/input",
+    part1,
+    part2
+);
 
 fn part1(input: String) -> Result<usize> {
     fn is_nice(input: &str) -> bool {
@@ -73,3 +60,22 @@ fn part2(input: String) -> Result<usize> {
 
     Ok(input.split('\n').filter(|x| is_nice(x)).count())
 }
+
+#[test]
+fn day05_test() {
+    assert_results!(part1,
+        "ugknbfddgicrmopn" => 1,
+        "aaa"              => 1,
+        "jchzalrnumimnmhp" => 0,
+        "haegwjzuvuyypxyu" => 0,
+        "dvszwmarrgswjxmb" => 0,
+    );
+
+    assert_results!(part2,
+        "qjhvhtzxzqqjkmpb" => 1,
+        "xxyxx"            => 1,
+        "uurcxstgmygtbstg" => 0,
+        "ieodomkazucvgmuy" => 0,
+    );
+}
+

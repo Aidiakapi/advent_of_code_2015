@@ -1,20 +1,12 @@
-use framework::*;
-use std::num::ParseIntError;
-use std::str::FromStr;
+day!(
+    day06,
+    "https://adventofcode.com/2015/day/6/input",
+    part1,
+    part2
+);
 
-pub fn load(fw: &mut Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/6/input", transform, part1,
-    [
-        "turn on 0,0 through 999,999" => "1000000"
-        "toggle 0,0 through 999,0"    => "1000"
-        "turn on 0,0 through 999,999\nturn off 499,499 through 500,500" => "999996"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/6/input", transform, part2,
-    [
-        "turn on 0,0 through 0,0"    => "1"
-        "toggle 0,0 through 999,999" => "2000000"
-    ]);
-}
+use std::str::FromStr;
+use std::num::ParseIntError;
 
 struct Point {
     x: usize,
@@ -91,7 +83,8 @@ fn transform(input: String) -> Vec<Instruction> {
         })
         .collect()
 }
-fn part1(instructions: Vec<Instruction>) -> Result<usize> {
+fn part1(instructions: String) -> Result<usize> {
+    let instructions = transform(instructions);
     let mut grid = vec![[false; 1000]; 1000];
     for instruction in instructions {
         for x in instruction.from.x..(instruction.to.x + 1) {
@@ -108,7 +101,8 @@ fn part1(instructions: Vec<Instruction>) -> Result<usize> {
     Ok(grid.iter().flat_map(|x| x.iter()).filter(|&&x| x).count())
 }
 
-fn part2(instructions: Vec<Instruction>) -> Result<usize> {
+fn part2(instructions: String) -> Result<usize> {
+    let instructions = transform(instructions);
     let mut grid = vec![[0; 1000]; 1000];
     for instruction in instructions {
         for x in instruction.from.x..(instruction.to.x + 1) {
@@ -124,4 +118,18 @@ fn part2(instructions: Vec<Instruction>) -> Result<usize> {
         }
     }
     Ok(grid.iter().flat_map(|x| x.iter()).sum())
+}
+
+#[test]
+fn day06_test() {
+    assert_results!(part1,
+        "turn on 0,0 through 999,999" => 1000000,
+        "toggle 0,0 through 999,0"    => 1000,
+        "turn on 0,0 through 999,999\nturn off 499,499 through 500,500" => 999996,
+    );
+
+    assert_results!(part2,
+        "turn on 0,0 through 0,0"    => 1,
+        "toggle 0,0 through 999,999" => 2000000,
+    );
 }

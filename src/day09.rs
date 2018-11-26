@@ -1,23 +1,12 @@
-use framework as fw;
+day!(
+    day09,
+    "https://adventofcode.com/2015/day/9/input",
+    part1,
+    part2
+);
+
 use permutohedron::Heap;
 use std::collections::HashMap;
-
-pub fn load(fw: &mut fw::Framework) {
-    register!(fw, "https://adventofcode.com/2015/day/9/input", transform, part1,
-    [
-"London to Dublin = 464
-London to Belfast = 518
-Dublin to Belfast = 141"
-=> "605"
-    ]);
-    register!(fw, "https://adventofcode.com/2015/day/9/input", transform, part2,
-    [
-"London to Dublin = 464
-London to Belfast = 518
-Dublin to Belfast = 141"
-=> "982"
-    ]);
-}
 
 type Place = u8;
 
@@ -64,32 +53,43 @@ fn transform(input: String) -> (Place, Routes) {
 fn route_lengths((place_count, routes): (Place, Routes)) -> Vec<usize> {
     let mut data = (0..place_count).collect::<Vec<_>>();
     let heap = Heap::new(&mut data);
-    heap
-        .map(|permutation| {
-            permutation
-                .iter()
-                .take(permutation.len() - 1)
-                .zip(permutation.iter().skip(1))
-                .map(|(&from, &to)| {
-                    routes
-                        .get(&Connection::new(from, to))
-                        .expect("missing route")
-                })
-                .sum()
-        })
-        .collect()
+    heap.map(|permutation| {
+        permutation
+            .iter()
+            .take(permutation.len() - 1)
+            .zip(permutation.iter().skip(1))
+            .map(|(&from, &to)| {
+                routes
+                    .get(&Connection::new(from, to))
+                    .expect("missing route")
+            })
+            .sum()
+    })
+    .collect()
 }
 
-fn part1(data: (Place, Routes)) -> fw::Result<usize> {
-    Ok(*route_lengths(data)
-        .iter()
-        .min()
-        .unwrap())
+fn part1(data: String) -> Result<usize> {
+    let data: (Place, Routes) = transform(data);
+    Ok(*route_lengths(data).iter().min().unwrap())
 }
 
-fn part2(data: (Place, Routes)) -> fw::Result<usize> {
-    Ok(*route_lengths(data)
-        .iter()
-        .max()
-        .unwrap())
+fn part2(data: String) -> Result<usize> {
+    let data: (Place, Routes) = transform(data);
+    Ok(*route_lengths(data).iter().max().unwrap())
+}
+
+#[test]
+fn day09_test() {
+    assert_results!(part1,
+"London to Dublin = 464
+London to Belfast = 518
+Dublin to Belfast = 141"
+=> 605
+    );
+    assert_results!(part2,
+"London to Dublin = 464
+London to Belfast = 518
+Dublin to Belfast = 141"
+=> 982
+    );
 }
