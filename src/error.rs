@@ -5,6 +5,7 @@ pub enum Error {
     Bincode(::bincode::Error),
     Io(::std::io::Error),
     Fmt(::std::fmt::Error),
+    Json(::serde_json::Error),
 
     DayDoesNotExist,
     MissingSessionToken,
@@ -38,5 +39,10 @@ impl From<::std::io::Error> for Error {
 impl From<::std::fmt::Error> for Error {
     fn from(e: ::std::fmt::Error) -> Error {
         Error::Fmt(e)
+    }
+}
+impl From<::serde_json::Error> for Error {
+    fn from(e: ::serde_json::Error) -> Error {
+        Error::Json(e)
     }
 }

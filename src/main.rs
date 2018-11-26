@@ -6,6 +6,7 @@ extern crate regex;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
+extern crate serde_json;
 extern crate bincode;
 extern crate reqwest;
 extern crate crypto;
@@ -78,4 +79,5 @@ main!(
     day09,
     day10,
     day11,
+    day12,
 );
