@@ -129,6 +129,7 @@ fn part1(instructions: String) -> Result<String> {
         .sorted()
         .iter()
         .map(|(name, value)| format!("{}: {}", name, value))
+        .take(8)
         .join("\n"))
 }
 
@@ -197,6 +198,7 @@ fn part2(instructions: String) -> Result<String> {
         .sorted()
         .iter()
         .map(|(name, value)| format!("{}: {}", name, value))
+        .take(8)
         .join("\n"))
 }
 
