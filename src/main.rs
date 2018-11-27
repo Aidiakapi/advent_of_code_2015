@@ -1,4 +1,5 @@
 #![allow(unused_imports)]
+#![feature(stmt_expr_attributes)]
 
 #[macro_use]
 extern crate lazy_static;
@@ -82,4 +83,5 @@ main!(
     day12,
     day13,
     day14,
+    day15,
 );
