@@ -64,7 +64,7 @@ fn validate_input(input: String) -> Result<Vec<u8>> {
     let pw = input.into_bytes();
     for &c in &pw {
         if c < b'a' || c > b'z' {
-            return Err(Error::Puzzle("invalid input in puzzle"));
+            return Err(Error::Input("invalid input in puzzle"));
         }
     }
     Ok(pw)

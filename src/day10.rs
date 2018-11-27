@@ -26,7 +26,7 @@ fn look_and_say(input: &str) -> Result<String> {
     let mut chars = input.chars();
     let mut curr = chars
         .next()
-        .ok_or(Error::Puzzle("look_and_say requires at least 1 character"))?;
+        .ok_or(Error::Input("look_and_say requires at least 1 character"))?;
     let mut count = 1;
     while let Some(next) = chars.next() {
         if next == curr {

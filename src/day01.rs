@@ -23,7 +23,7 @@ fn part2(input: String) -> Result<usize> {
             _ => (),
         }
     }
-    Err(Error::Puzzle("basement level not reached"))
+    Err(Error::Input("basement level not reached"))
 }
 
 #[test]

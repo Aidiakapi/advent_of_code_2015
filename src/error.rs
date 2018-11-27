@@ -6,11 +6,12 @@ pub enum Error {
     Io(::std::io::Error),
     Fmt(::std::fmt::Error),
     Json(::serde_json::Error),
+    ParseInt(::std::num::ParseIntError),
 
     DayDoesNotExist,
     MissingSessionToken,
     InvalidSessionToken(::reqwest::StatusCode),
-    Puzzle(&'static str),
+    Input(&'static str),
 }
 
 impl ::std::error::Error for Error {}
@@ -44,5 +45,10 @@ impl From<::std::fmt::Error> for Error {
 impl From<::serde_json::Error> for Error {
     fn from(e: ::serde_json::Error) -> Error {
         Error::Json(e)
+    }
+}
+impl From<::std::num::ParseIntError> for Error {
+    fn from(e: ::std::num::ParseIntError) -> Error {
+        Error::ParseInt(e)
     }
 }
