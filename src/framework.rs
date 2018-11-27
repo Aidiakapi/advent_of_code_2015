@@ -124,7 +124,7 @@ impl Framework {
     }
 
     pub fn execute(&mut self, client: &Client, day: &str) -> Result<()> {
-        let day = self.days.get(day).ok_or(Error::DayDoesNotExist)?.clone();
+        let day = self.days.get(day).ok_or_else(|| Error::DayDoesNotExist(day.to_owned()))?.clone();
 
         let input = self.fetch_input(client, day.url)?;
         if let Some(part1) = day.part1 {

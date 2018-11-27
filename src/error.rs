@@ -8,7 +8,7 @@ pub enum Error {
     Json(::serde_json::Error),
     ParseInt(::std::num::ParseIntError),
 
-    DayDoesNotExist,
+    DayDoesNotExist(String),
     MissingSessionToken,
     InvalidSessionToken(::reqwest::StatusCode),
     Input(&'static str),
