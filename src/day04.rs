@@ -39,7 +39,7 @@ fn part2(prefix: String) -> Result<usize> {
 }
 
 #[test]
-#[ignore]
+#[cfg_attr(debug_assertions, ignore)]
 fn day04_test() {
     assert_results!(part1,
         "abcdef"  => 609043,

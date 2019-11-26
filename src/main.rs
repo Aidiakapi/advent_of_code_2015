@@ -11,6 +11,7 @@ mod error;
 #[macro_use]
 mod framework;
 
+use colored::Colorize;
 use crate::framework::Framework;
 use reqwest::Client;
 use std::env;
@@ -24,6 +25,10 @@ macro_rules! main {
             mod $days;
         )+
         fn main() {
+            if cfg!(windows) {
+                let _ = colored::control::set_virtual_terminal(true);
+            }
+
             let mut fw = Framework::new();
 
             $(
@@ -41,7 +46,7 @@ macro_rules! main {
                     $(
                         {
                             if let Err(e) = fw.execute(&client, stringify!($days)) {
-                                eprintln!("{}", e);
+                                eprintln!("{}", e.to_string().red());
                                 std::process::exit(-2);
                             }
                         }
@@ -50,7 +55,7 @@ macro_rules! main {
                 2 => {
                     // execute specific day
                     if let Err(e) = fw.execute(&client, args[1].as_str()) {
-                        eprintln!("{}", e);
+                        eprintln!("{}", e.to_string().bright_red());
                         std::process::exit(-2);
                     }
                 },
