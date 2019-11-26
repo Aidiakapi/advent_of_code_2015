@@ -1,24 +1,19 @@
 #![allow(unused_imports)]
-#![feature(stmt_expr_attributes)]
+#![feature(trait_alias, stmt_expr_attributes)]
 
 #[macro_use]
 extern crate lazy_static;
-extern crate regex;
-extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
-extern crate bincode;
-extern crate reqwest;
-extern crate crypto;
 
+mod astar;
 mod error;
 #[macro_use]
 mod framework;
 
-use std::env;
-use reqwest::Client;
 use crate::framework::Framework;
+use reqwest::Client;
+use std::env;
 
 pub(crate) use crate::error::Error;
 pub(crate) use crate::error::Result;
@@ -68,7 +63,7 @@ macro_rules! main {
     };
 }
 
-main!(
+#[rustfmt::skip] main!(
     day01,
     day02,
     day03,
@@ -87,4 +82,5 @@ main!(
     day16,
     day17,
     day18,
+    day19,
 );

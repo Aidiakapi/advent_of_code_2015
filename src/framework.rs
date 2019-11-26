@@ -16,7 +16,7 @@ macro_rules! day_callback {
         None
     };
     ($callback:ident) => {
-        Some((|input| $callback(input).map(|x| x.to_string())) as (fn(String) -> Result<String>))
+        Some((|input| $callback(input).map(|x| x.to_string())) as fn(String) -> Result<String>)
     };
 }
 #[cfg(test)]
@@ -30,7 +30,7 @@ macro_rules! assert_results {
     ($fn:ident, $($input:tt => $expected:expr),+$(,)*) => {
         $(
             assert_result!($fn, $expected, $input);
-        )+;
+        )+
     };
 }
 
