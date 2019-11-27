@@ -75,7 +75,7 @@ fn transform(input: String) -> Vec<Instruction> {
         .collect()
 }
 
-fn part1(instructions: String) -> Result<String> {
+fn part1(instructions: String) -> Result<Value> {
     let ref instructions = transform(instructions);
     type Instructions<'a> = HashMap<&'a str, &'a Instruction>;
     type Values<'a> = HashMap<&'a str, Value>;
@@ -124,16 +124,18 @@ fn part1(instructions: String) -> Result<String> {
         value_of(ident, &instructions, &mut values);
     }
 
-    Ok(values
-        .iter()
-        .sorted()
-        .into_iter()
-        .map(|(name, value)| format!("{}: {}", name, value))
-        .take(8)
-        .join("\n"))
+    values.get("a").cloned().ok_or(Error::Input("no wire 'a'"))
+    // // For unit test:
+    // Ok(values
+    //     .iter()
+    //     .sorted()
+    //     .into_iter()
+    //     .map(|(name, value)| format!("{}: {}", name, value))
+    //     .take(8)
+    //     .join("\n"))
 }
 
-fn part2(instructions: String) -> Result<String> {
+fn part2(instructions: String) -> Result<Value> {
     let ref instructions = transform(instructions);
 
     type Instructions<'a> = HashMap<&'a str, &'a Instruction>;
@@ -193,32 +195,34 @@ fn part2(instructions: String) -> Result<String> {
         value_of(ident, &instructions, &mut values);
     }
 
-    Ok(values
-        .iter()
-        .sorted()
-        .into_iter()
-        .map(|(name, value)| format!("{}: {}", name, value))
-        .take(8)
-        .join("\n"))
+    values.get("a").cloned().ok_or(Error::Input("no wire 'a'"))
+    // // For unit test:
+    // Ok(values
+    //     .iter()
+    //     .sorted()
+    //     .into_iter()
+    //     .map(|(name, value)| format!("{}: {}", name, value))
+    //     .take(8)
+    //     .join("\n"))
 }
 
-#[test]
-fn day07_test() {
-    assert_results!(part1,
-"123 -> x
-456 -> y
-x AND y -> d
-x OR y -> e
-x LSHIFT 2 -> f
-y RSHIFT 2 -> g
-NOT x -> h
-NOT y -> i" => "d: 72
-e: 507
-f: 492
-g: 114
-h: 65412
-i: 65079
-x: 123
-y: 456"
-    );
-}
+// #[test]
+// fn day07_test() {
+//     assert_results!(part1,
+// "123 -> x
+// 456 -> y
+// x AND y -> d
+// x OR y -> e
+// x LSHIFT 2 -> f
+// y RSHIFT 2 -> g
+// NOT x -> h
+// NOT y -> i" => "d: 72
+// e: 507
+// f: 492
+// g: 114
+// h: 65412
+// i: 65079
+// x: 123
+// y: 456"
+//     );
+// }
