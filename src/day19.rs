@@ -154,7 +154,7 @@ fn part2(input: String) -> Result<usize> {
         .solve(
             molecule,
             |molecule| {
-                let mut candidates = arrayvec::ArrayVec::<[Molecule; 32]>::new();
+                let mut candidates = arrayvec::ArrayVec::<Molecule, 32>::new();
                 for (into, from) in &rules {
                     let idx = match find_substr(molecule.as_slice(), into) {
                         Some(idx) => idx,

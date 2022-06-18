@@ -34,7 +34,7 @@ macro_rules! assert_results {
 }
 
 use crate::{Error, Result};
-use reqwest::{Client, StatusCode};
+use reqwest::{blocking::Client, StatusCode};
 use colored::*;
 use std::collections::{BTreeMap, HashMap};
 use std::time::{Duration, Instant};
@@ -106,7 +106,7 @@ impl Framework {
         }
         let token = self.token.as_ref().ok_or(Error::MissingSessionToken)?;
 
-        let mut response = client
+        let response = client
             .get(url)
             .header("cookie", format!("session={}", token))
             .send()?;

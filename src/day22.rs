@@ -71,8 +71,8 @@ impl State {
         self.player.hp -= damage;
     }
 
-    fn next_states(&self) -> ArrayVec<[(State, usize); 5]> {
-        let mut new_states = ArrayVec::<[(State, usize); 5]>::new();
+    fn next_states(&self) -> ArrayVec<(State, usize), 5> {
+        let mut new_states = ArrayVec::<(State, usize), 5>::new();
         let mut state = self.clone();
 
         // Apply effects

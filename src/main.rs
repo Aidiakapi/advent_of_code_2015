@@ -13,7 +13,7 @@ mod framework;
 
 use colored::Colorize;
 use crate::framework::Framework;
-use reqwest::Client;
+use reqwest::blocking::Client;
 use std::env;
 
 pub(crate) use crate::error::Error;
